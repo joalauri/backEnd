@@ -1,32 +1,35 @@
 
-const fs = require('fs').promises
+const fs = require('fs')
 
 //Creacion de la clase contenedor: 
 class Contenedor {
   #contenido;
   #ruta
+  #getingID
   //Declarando método constructor
   constructor(ruta) {
     this.#contenido = [];
     this.#ruta = ruta
+    this.#getingID = {}
   }
   //metodo: para guardar objetos. Correcto.
   async save(object) {
     this.#contenido.push(object);
-    await fs.promises.writeFile(this.#ruta, JSON.stringify(this.#elementos))
+    await fs.promises.writeFile(this.#ruta, JSON.stringify(this.#contenido))
   }
   //metodo: para encontrar por numero de id. Correcto
   async getById(n) {
-     this.#contenido.forEach((element) => {
+    this.#contenido.forEach((element) => {
       if (element.id === n) {
-        return this.#contenido[this.#contenido.indexOf(element)];
-      }
-    });
+      this.#getingID = element
+      } 
+    })
+    return this.#getingID
   }
   //metodo: para traer todos los datos almacenados. Correcto
  async getAll() {
-    this.#elementos = JSON.parse(await fs.promises.readFile(this.#ruta, 'utf-8'))
-    return this.#elementos
+  this.#contenido = JSON.parse(await fs.promises.readFile(this.#ruta, 'utf-8'))
+    return this.#contenido
   }
   //metodo:para eliminar por Id 
   async deleteById(n) {
@@ -40,43 +43,39 @@ class Contenedor {
         }
         
     });
-    await fs.promises.writeFile(this.#ruta, JSON.stringify(this.#elementos))
+    await fs.promises.writeFile(this.#ruta, JSON.stringify(this.#contenido))
   }
   //metodo: para eliminar todo los objetos. Correcto
  async deleteAll() {
     while(this.#contenido.length>=1){ 
     this.#contenido.pop()
     }
-
     await fs.promises.writeFile(this.#ruta, JSON.stringify([]))
   }
 }
-//Creación de un objeto contenedor. 
-const contenedorGral = new Contenedor();
-contenedorGral.save({ title: "El numero Uno", price: 100, thumbnail:"www.imagen1.com" });
-contenedorGral.save({ title: "El numero Dos", price: 150, thumbnail:"www.imagen2.com" });
-contenedorGral.save({ title: "El numero Tres", price: 200, thumbnail:"www.imagen3.com" });
-contenedorGral.save({ title: "El numero Uno", price: 100, thumbnail:"www.imagen1.com" });
-contenedorGral.save({ title: "El numero Uno", price: 100, thumbnail:"www.imagen1.com" });
-contenedorGral.save({ title: "El numero cuatro", price: 100, thumbnail:"www.imagen1.com" });
+async function test(){
+  const rutaArchivo = './elementos.txt'
+  await fs.promises.writeFile(rutaArchivo,'[]')
+  const nuevoContenedor = new Contenedor(rutaArchivo)
+  await nuevoContenedor.save({
+    id:1, title: "El numero Uno", price: 100, thumbnail:"www.imagen1.com" 
+  })
+  await nuevoContenedor.save({
+   id: 2,  title: "El numero Dos", price: 150, thumbnail:"www.imagen2.com" 
+  })
+  await nuevoContenedor.save({
+    id: 3, title: "El numero Tres", price: 200, thumbnail:"www.imagen3.com"
+  })
+  await nuevoContenedor.save({
+    id: 4, title: "El numero Cuatro", price: 200, thumbnail:"www.imagen4.com"
+  })
+  // console.log(await nuevoContenedor.getAll())//funcionaOK
+  // console.log(await nuevoContenedor.getById(2))//FuncionaOk
+  // console.log(await nuevoContenedor.recuperarTodo())
+  // console.log(await nuevoContenedor.recuperarTodo())
 
-
-//Llamado a los métodos. Aquí podemos probar todos las combinaciones posibles. 
-
-// contenedorGral.getById(2)
-// contenedorGral.deleteById(2)
-// contenedorGral.deleteById(1)
-// console.log(contenedorGral.getAll());
-// contenedorGral.deleteById(1)
-// contenedorGral.deleteAll()
-// console.log(contenedorGral.getAll());
-
-
-
-
-
-
-
+}
+test()
 
 
 
@@ -85,27 +84,11 @@ contenedorGral.save({ title: "El numero cuatro", price: 100, thumbnail:"www.imag
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// contenedorGral.save;
+// contenedorGral.save({ });
+// contenedorGral.save({ });
+// contenedorGral.save({ title: "El numero Uno", price: 100, thumbnail:"www.imagen1.com" });
+// contenedorGral.save({ title: "El numero Uno", price: 100, thumbnail:"www.imagen1.com" });
 
 // async save(object) {
   // if (this.#contenido.length===0){
