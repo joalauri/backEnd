@@ -50,7 +50,7 @@ class Contenedor {
     while(this.#contenido.length>=1){ 
     this.#contenido.pop()
     }
-    await fs.promises.writeFile(this.#ruta, JSON.stringify([]))
+    await fs.promises.writeFile(this.#ruta, JSON.stringify(this.#contenido))
   }
 }
 async function test(){
@@ -69,10 +69,12 @@ async function test(){
   await nuevoContenedor.save({
     id: 4, title: "El numero Cuatro", price: 200, thumbnail:"www.imagen4.com"
   })
+          //LUGAR PARA PROBAR LOS MÉTODOS
   // console.log(await nuevoContenedor.getAll())//funcionaOK
   // console.log(await nuevoContenedor.getById(2))//FuncionaOk
-  // console.log(await nuevoContenedor.recuperarTodo())
-  // console.log(await nuevoContenedor.recuperarTodo())
+  // console.log(await nuevoContenedor.deleteById(2))//funcionaOK
+  //  console.log(await nuevoContenedor.getAll())//funcionaOK
+  // console.log(await nuevoContenedor.deleteAll())//funcionaOK
 
 }
 test()
