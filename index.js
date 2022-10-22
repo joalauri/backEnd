@@ -10,7 +10,7 @@ class Contenedor {
   constructor(ruta) {
     this.#contenido = [];
     this.#ruta = ruta
-    this.#getingID = {}
+    this.#getingID = null
   }
   //metodo: para guardar objetos. Correcto.
   async save(object) {
@@ -25,6 +25,9 @@ class Contenedor {
       } 
     })
     return this.#getingID
+    //segunda opción no se cuál es mas conveniente.
+    // const idFind = await this.#contenido.find(o => o.id === n)
+    // return idFind
   }
   //metodo: para traer todos los datos almacenados. Correcto
  async getAll() {
@@ -71,7 +74,7 @@ async function test(){
   })
           //LUGAR PARA PROBAR LOS MÉTODOS
   // console.log(await nuevoContenedor.getAll())//funcionaOK
-  // console.log(await nuevoContenedor.getById(2))//FuncionaOk
+  console.log(await nuevoContenedor.getById(5))//FuncionaOk
   // console.log(await nuevoContenedor.deleteById(2))//funcionaOK
   //  console.log(await nuevoContenedor.getAll())//funcionaOK
   // console.log(await nuevoContenedor.deleteAll())//funcionaOK
